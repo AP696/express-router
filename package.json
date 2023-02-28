@@ -2,8 +2,9 @@
   "name": "express-router",
   "version": "1.0.0",
   "description": "Create Express routers using express.Router",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev-start": "nodemon server.js"
   },
@@ -19,10 +20,11 @@
   },
   "homepage": "https://github.com/MultiverseLearningProducts/express-router#readme",
   "dependencies": {
-    "express": "^4.17.3",
-    "express-validator": "^6.14.0"
+    "express": "^4.18.2",
+    "express-router": "^0.0.1",
+    "express-validator": "^6.15.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.20"
   }
 }
