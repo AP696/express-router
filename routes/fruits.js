@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const { check, validationResult } = require("express-validator");
 const fruitRouter = Router();
 
 // List of Fruits
@@ -33,17 +34,22 @@ fruitRouter.get("/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const fruit = fruits.find((fruit) => fruit.id === id);
   if (fruit) {
-    res.json(fruit); 
+    res.json(fruit);
   } else {
     res.status(404).send("Fruit not found");
   }
 });
 
-fruitRouter.post("/", (req, res) => {
-  const newFruit = req.body;
-  newFruit.id = fruits.length + 1;
-  fruits.push(newFruit);
-  res.status(201).json(newFruit);
+fruitRouter.post("/", [check("color").not().isEmpty()], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.json({ error: errors.array() });
+  } else {
+    const newFruit = req.body;
+    newFruit.id = fruits.length + 1;
+    fruits.push(newFruit);
+    res.status(201).json(newFruit);
+  }
 });
 
 fruitRouter.put("/:id", (req, res) => {

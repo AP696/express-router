@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { fruitRouter } = require("./fruits");
 const userRouter = Router();
+const { check, validationResult } = require("express-validator");
 
 // List of Users
 let users = [
@@ -44,16 +45,21 @@ userRouter.get("/:id", (req, res) => {
   }
 });
 
-userRouter.post("/", (req, res) => {
-  const { name, age } = req.body;
-  const id = users.length + 1;
-  const newUser = {
-    id,
-    name,
-    age,
-  };
-  users.push(newUser);
-  res.status(201).json(newUser);
+userRouter.post("/", [check("name").not().isEmpty()], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.json({ error: errors.array() });
+  } else {
+    const { name, age } = req.body;
+    const id = users.length + 1;
+    const newUser = {
+      id,
+      name,
+      age,
+    };
+    users.push(newUser);
+    res.status(201).json(newUser);
+  }
 });
 
 userRouter.put("/:id", (req, res) => {
