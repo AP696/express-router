@@ -33,7 +33,7 @@ fruitRouter.get("/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const fruit = fruits.find((fruit) => fruit.id === id);
   if (fruit) {
-    res.json(fruit);
+    res.json(fruit); 
   } else {
     res.status(404).send("Fruit not found");
   }
