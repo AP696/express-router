@@ -22,6 +22,8 @@ let fruits = [
   },
 ];
 
+
+
 fruitRouter.get("/", (req, res) => {
   try {
     res.json(fruits);
