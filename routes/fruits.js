@@ -39,4 +39,38 @@ fruitRouter.get("/:id", (req, res) => {
   }
 });
 
+fruitRouter.post("/", (req, res) => {
+  const newFruit = req.body;
+  newFruit.id = fruits.length + 1;
+  fruits.push(newFruit);
+  res.status(201).json(newFruit);
+});
+
+fruitRouter.put("/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const updatedFruit = req.body;
+  const fruitIndex = fruits.findIndex((fruit) => fruit.id === id);
+  if (fruitIndex >= 0) {
+    fruits[fruitIndex] = {
+      ...fruits[fruitIndex],
+      ...updatedFruit,
+      id,
+    };
+    res.json(fruits[fruitIndex]);
+  } else {
+    res.status(404).send("Fruit not found");
+  }
+});
+
+fruitRouter.delete("/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const fruitIndex = fruits.findIndex((fruit) => fruit.id === id);
+  if (fruitIndex >= 0) {
+    fruits.splice(fruitIndex, 1);
+    res.status(204).send();
+  } else {
+    res.status(404).send("Fruit not found");
+  }
+}); 
+
 module.exports = { fruitRouter };
